@@ -1,0 +1,131 @@
+<meta charset="utf-8">
+
+<style>
+    .gamer {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        background-color: black;
+    }
+
+    td {
+        width: 100px;
+        height: 100px;
+        text-align: center;
+    }
+</style>
+
+<table border="1">
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td colspan="2" rowspan="2"></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <div class="gamer"></div>
+        </td>
+    </tr>
+</table>
+
+<button id="dice">
+    Бросок
+</button>
+
+<script>
+    function random(min, max){
+        return parseInt(min + (max - min) * Math.random());
+    }
+
+    var field = {
+        size: 4,
+        el: document.querySelector('table')
+    };
+
+    var gamer = {
+        direction: 'left',
+        el: document.querySelector('.gamer') //div.gamer
+    };
+
+    function chooseDirection(x,y,size){
+        if(x === y === size){
+            return "left"
+        }
+
+        if(x === y === 1){
+            return 'right';
+        }
+
+        if(x === size && y === 1){
+            return 'down';
+        }
+
+        if(x === 1 && y === size){
+            return 'up';
+        }
+    }
+
+    function selectTargetCell(direction, x, y, steps){
+        var target_cell = null;
+
+        switch(direction){
+            case 'left':
+
+                target_cell = field.el.rows[y-1].cells[x-1-steps];
+
+                break;
+            case 'right':
+
+                target_cell = field.el.rows[y-1].cells[x-1+steps];
+
+                break;
+            case 'up':
+
+                target_cell = field.el.rows[y-1-steps].cells[x-1];
+
+                break;
+            case 'down':
+
+                target_cell = field.el.rows[y-1+steps].cells[x-1];
+
+                break;
+        }
+
+        return target_cell;
+    }
+
+    function move(gamer, steps){
+        var td = gamer.el.parentNode;
+
+        var x = td.cellIndex + 1;
+        var y = td.parentNode.rowIndex + 1;
+
+        gamer.direction = chooseDirection(x,y,field.size) || gamer.direction;
+
+        var target_cell = selectTargetCell(gamer.direction);
+        target_cell.appendChild(gamer.el);
+
+
+    }
+
+    document
+            .getElementById('dice')
+            .addEventListener('click', function(){
+                var result = random(1,3);
+
+                move(gamer, result);
+            });
+</script>
