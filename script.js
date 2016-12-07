@@ -144,12 +144,16 @@ function action(gamer) {
 document
     .getElementById('dice')
     .addEventListener('click', function (event) {
+        var el = event.currentTarget;
+
+        el.disabled = true;
+
         var result = random(2,5);
         var gamer = list.current();
 
         move(gamer, result, function(gamer){
             action(gamer);
-
+            el.disabled = false;
         });
     });
 
