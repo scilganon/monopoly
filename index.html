@@ -38,7 +38,7 @@
         <td></td>
         <td></td>
         <td></td>
-        <td>
+        <td id="start">
             <div class="gamer"></div>
         </td>
     </tr>
@@ -55,10 +55,16 @@
 
     var field = {
         size: 4,
-        el: document.querySelector('table')
+        el: document.querySelector('table'),
+        cards: [
+            new Cell('start', function(user){
+                user.balance += 10;
+            })
+        ]
     };
 
     var gamer = {
+        balance: 0,
         direction: 'left',
         el: document.querySelector('.gamer') //div.gamer
     };
@@ -110,8 +116,10 @@
         return target_cell;
     }
 
-    function move(gamer, steps){
+    function move(gamer, steps, cb){
         if(steps === 0){
+            cb(gamer.el.parentElement.id);
+
             return;
         }
 
@@ -126,8 +134,18 @@
         target_cell.appendChild(gamer.el);
 
         setTimeout(function(){
-            move(gamer, steps - 1);
+            move(gamer, steps - 1, cb);
         }, 500);
+    }
+
+    function action(currentId){
+        var cell = field.cards.find(function(cell) {
+            return cell.name === currentId;
+        });
+
+        if(cell){
+            cell.action(gamer);
+        }
     }
 
     document
@@ -135,6 +153,12 @@
             .addEventListener('click', function(){
                 var result = random(2,5);
 
-                move(gamer, result);
+                move(gamer, result, action);
             });
+
+    function Cell(name, cb){
+        this.name = name;
+        this.action = cb;
+    }
+
 </script>
