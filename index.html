@@ -24,10 +24,13 @@
     </tr>
     <tr>
         <td></td>
-        <td colspan="2" rowspan="2"></td>
+        <td></td>
+        <td></td>
         <td></td>
     </tr>
     <tr>
+        <td></td>
+        <td></td>
         <td></td>
         <td></td>
     </tr>
@@ -61,11 +64,11 @@
     };
 
     function chooseDirection(x,y,size){
-        if(x === y === size){
+        if(x === size && y === size){
             return "left"
         }
 
-        if(x === y === 1){
+        if(x === 1 && y === 1){
             return 'right';
         }
 
@@ -108,6 +111,10 @@
     }
 
     function move(gamer, steps){
+        if(steps === 0){
+            return;
+        }
+
         var td = gamer.el.parentNode;
 
         var x = td.cellIndex + 1;
@@ -115,16 +122,18 @@
 
         gamer.direction = chooseDirection(x,y,field.size) || gamer.direction;
 
-        var target_cell = selectTargetCell(gamer.direction);
+        var target_cell = selectTargetCell(gamer.direction, x,y,1);
         target_cell.appendChild(gamer.el);
 
-
+        setTimeout(function(){
+            move(gamer, steps - 1);
+        }, 500);
     }
 
     document
             .getElementById('dice')
             .addEventListener('click', function(){
-                var result = random(1,3);
+                var result = random(2,5);
 
                 move(gamer, result);
             });
