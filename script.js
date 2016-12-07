@@ -39,7 +39,8 @@ var list = {
     _turn: 0,
 
     users: [
-        new User(document.querySelector('.gamer'))
+        new User(document.querySelector('.gamer_1')),
+        new User(document.querySelector('.gamer_2'))
     ],
 
     current: function () {
@@ -107,7 +108,7 @@ function selectTargetCell(direction, x, y, steps) {
 
 function move(gamer, steps, cb) {
     if (steps === 0) {
-        cb(gamer.el.parentElement.id, gamer);
+        cb(gamer);
 
         return;
     }
@@ -127,7 +128,9 @@ function move(gamer, steps, cb) {
     }, 500);
 }
 
-function action(currentId, gamer) {
+function action(gamer) {
+    var currentId = gamer.el.parentElement.id;
+
     var cell = field.cards.find(function (cell) {
         return cell.name === currentId;
     });
@@ -140,11 +143,13 @@ function action(currentId, gamer) {
 
 document
     .getElementById('dice')
-    .addEventListener('click', function () {
-        var result = 1// random(2,5);
+    .addEventListener('click', function (event) {
+        var result = random(2,5);
         var gamer = list.current();
 
+        move(gamer, result, function(gamer){
+            action(gamer);
 
-        move(gamer, result, action);
+        });
     });
 
