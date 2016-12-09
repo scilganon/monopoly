@@ -153,7 +153,27 @@ function action(gamer) {
     if (cell) {
         console.log(cell.action.name);
         cell.action(gamer);
+
+        if(gamer.balance < 0 ){
+            gameOverForUser(gamer);
+        }
     }
+}
+
+function checkWin(){
+    var isWon = list.users.length === 1;
+    if(isWon){
+        console.log("You had won:", list.users[0]);
+    }
+    return isWon;
+}
+
+function gameOverForUser(user){
+    var index = list.users.indexOf(user);
+
+    var gamer = list.users.splice(index, 1)[0];
+
+    gamer.el.remove();
 }
 
 document
@@ -168,7 +188,7 @@ document
 
         move(gamer, result, function(gamer){
             action(gamer);
-            el.disabled = false;
+            el.disabled = checkWin();
         });
     });
 
