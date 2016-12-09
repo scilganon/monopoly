@@ -163,7 +163,7 @@ document
 
         el.disabled = true;
 
-        var result = random(2,5);
+        var result = 3// random(2,5);
         var gamer = list.current();
 
         move(gamer, result, function(gamer){
@@ -172,3 +172,5 @@ document
         });
     });
 
+
+field.cells[2].card.owner = list.users[1];
