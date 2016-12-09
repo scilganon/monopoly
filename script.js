@@ -21,6 +21,17 @@ var actions = {
 
     penalty: function (user) {
         user.balance *= .9;
+    },
+
+    penaltyForCard(user){
+        var currentCell = user.el.parentNode;
+        var cell = field.findCellById(currentCell.id);
+
+        if(cell){
+            var card = cell.card;
+
+            user.balance -= card.penalty;
+        }
     }
 };
 
@@ -28,11 +39,17 @@ var actions = {
 var field = {
     size: 4,
     el: document.querySelector('table'),
-    cards: [
+    cells: [
         new CellAction('penalty', actions.penalty),
         new CellAction('start', actions.plusBalance),
         new CellCard('shop', new Card('test', 20)),
-    ]
+    ],
+
+    findCellById: function(id){
+        return field.cells.find(function (cell) {
+            return cell.name === id;
+        })
+    }
 };
 
 var list = {
@@ -131,9 +148,7 @@ function move(gamer, steps, cb) {
 function action(gamer) {
     var currentId = gamer.el.parentElement.id;
 
-    var cell = field.cards.find(function (cell) {
-        return cell.name === currentId;
-    });
+    var cell = field.findCellById(currentId);
 
     if (cell) {
         console.log(cell.action.name);
