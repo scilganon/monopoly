@@ -4,30 +4,106 @@
 
 
 <style>
+    body {
+        background: #2c3e50;
+    }
+
+    h1 {
+        margin: 50px;
+        text-align: center;
+        color: #ecf0f1;
+    }
     .gamer_1 {
         display: inline-block;
         width: 25px;
         height: 25px;
-        background-color: black;
+        margin: 2px;
+        border-radius: 25px;
+        background-color: #2980b9;
     }
 
     .gamer_2 {
         display: inline-block;
         width: 25px;
         height: 25px;
-        background-color: red;
+        margin: 2px;
+        border-radius: 25px;
+        background-color: #c0392b;
     }
 
+    #game_field {
+        margin: 50px auto 0;
+    }
+    table {
+        border-collapse:collapse;
+    }
     td {
-        width: 100px;
-        height: 100px;
+        border: 0;
         text-align: center;
         box-sizing: border-box;
     }
+
+    tr:first-child > td, tr:last-child > td {
+        background: #ecf0f1;
+        width: 100px;
+        border: 4px solid #2c3e50;
+    }
+    td:first-child, td:last-child {
+        background: #ecf0f1;
+        height: 100px;
+        border: 4px solid #2c3e50;
+    }
+
+    tr:first-child > td:first-child,
+    tr:first-child > td:last-child,
+    tr:last-child > td:first-child,
+    tr:last-child > td:last-child {
+        width: 150px;
+        height: 150px;
+    }
+    tr:first-child > td:first-child {
+        border-top-left-radius: 16px;
+    }
+    tr:first-child > td:last-child {
+        border-top-right-radius: 16px;
+    }
+    tr:last-child > td:first-child {
+        border-bottom-left-radius: 16px;
+    }
+    tr:last-child > td:last-child {
+        border-bottom-right-radius: 16px;
+    }
+
+    #dice {
+        display: block;
+        width: 150px;
+        height: 40px;
+        margin: 20px auto;
+        font-size: 18px;
+        background: #1abc9c;
+        border: 0;
+        border-radius: 2px;
+        color: #2c3e50;
+        cursor: pointer;
+    }
+    #dice:hover {
+        background: #16a085;
+    }
+    #dice:active, #dice:focus {
+        outline: none;
+    }
+    button#dice:disabled {
+        background: #2c3e50;
+        cursor: default;
+    }
+
 </style>
 
-<table border="1">
+<h1>Монополия</h1>
+
+<table border="1" id = "game_field">
     <tr>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -38,8 +114,17 @@
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
     </tr>
     <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -47,6 +132,7 @@
     </tr>
     <tr>
         <td id="shop"></td>
+        <td></td>
         <td></td>
         <td id="penalty"></td>
         <td id="start">
