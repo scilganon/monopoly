@@ -31,7 +31,7 @@ var field = {
     cards: [
         new CellAction('penalty', actions.penalty),
         new CellAction('start', actions.plusBalance),
-        new CellCard('shop', new Card('test', 20))
+        new CellCard('shop', new Card('test', 20)),
     ]
 };
 
