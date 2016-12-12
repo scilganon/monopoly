@@ -191,4 +191,3 @@ document
             el.disabled = checkWin();
         });
     });
-
