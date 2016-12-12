@@ -3,4 +3,8 @@ function User(el){
     this.direction = 'left';
 
     this.el = el;
+
+    this.getName = function(){
+        return this.el.className;
+    }
 }
