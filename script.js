@@ -26,7 +26,7 @@ var actions = {
 
 
 var field = {
-    size: 5,
+    size: 4,
     el: document.querySelector('table'),
     cards: [
         new CellAction('penalty', actions.penalty),
