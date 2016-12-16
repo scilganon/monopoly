@@ -1,12 +1,13 @@
-function Card(name, price){
-    this.name = name;
-    this.price = price;
+define(function(){
+    return function Card(name, price){
+        this.name = name;
+        this.price = price;
 
-    this.penalty = price * 0.1;
-    this.owner = null;
+        this.penalty = price * 0.1;
+        this.owner = null;
 
-    this.render = function(){
-        return `
+        this.render = function(){
+            return `
              <div class="card">
                 <div class="name">
                     ${this.name}
@@ -21,5 +22,6 @@ function Card(name, price){
                 </div>
             </div>
         `;
-    }
-}
+        }
+    };
+});
