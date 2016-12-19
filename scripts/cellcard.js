@@ -1,4 +1,6 @@
-define(function(){
+define([
+    'scripts/actions'
+], function(actions){
     return function CellCard(name, card){
         this.name = name;
         this.card = card;

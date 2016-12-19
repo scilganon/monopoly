@@ -3,44 +3,11 @@ define([
     'scripts/user',
     'scripts/cellaction',
     'scripts/cellcard',
-], function(Card, User, CellAction, CellCard){
+    'scripts/actions'
+], function(Card, User, CellAction, CellCard, actions){
     function random(min, max) {
         return parseInt(min + (max - min) * Math.random());
     }
-
-    var actions = {
-        buy: function (user, card) {
-            if (user.balance >= card.price) {
-                if (confirm('Do you want buy this card?')) {
-                    user.balance -= card.price;
-                    card.owner = user;
-                    decorateBoughtCell(user);
-                }
-            } else {
-                console.log('no money - no funny');
-            }
-        },
-
-        plusBalance: function (user) {
-            user.balance += 10;
-        },
-
-        penalty: function (user) {
-            user.balance *= .9;
-        },
-
-        penaltyForCard(user){
-            var currentCell = user.el.parentNode;
-            var cell = field.findCellById(currentCell.id);
-
-            if(cell){
-                var card = cell.card;
-
-                user.balance -= card.penalty;
-            }
-        }
-    };
-
 
     var field = {
         size: 4,
@@ -61,17 +28,34 @@ define([
     var list = {
         _turn: 0,
 
-        users: [
-            new User(document.querySelector('.gamer_1')),
-            new User(document.querySelector('.gamer_2'))
-        ],
+        users: [],
 
         current: function () {
             list._turn = list._turn % list.users.length;
 
             return this.users[list._turn++];
+        },
+
+        init: function(num){
+            for(var i=0; i< num; i++){
+                // var type = prompt('what is you player type: 1 - human, 2 - ufo, 3 - rectangle');
+                //
+                // type = +type % 3 + 1;
+
+                var user = new User(i);
+
+                this.users.push(user);
+
+                field.el.querySelector('#start').innerHTML += user.render();
+            }
+
+            this.users.forEach(function(user){
+                user.el = document.querySelector('#user_'+user.id);
+            });
         }
     };
+
+    list.init(2);
 
     function decorateBoughtCell(gamer) {
         var cell = gamer.el.parentNode;

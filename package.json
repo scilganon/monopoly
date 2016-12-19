@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/scilganon/monopoly#readme",
   "dependencies": {
+    "ejs": "^2.5.5",
     "js-cookie": "^2.1.3",
     "requirejs": "^2.3.2"
   }
