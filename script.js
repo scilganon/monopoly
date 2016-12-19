@@ -3,12 +3,10 @@ define([
     'scripts/user',
     'scripts/cellaction',
     'scripts/cellcard',
-    'scripts/actions'
-], function(Card, User, CellAction, CellCard, actions){
-    function random(min, max) {
-        return parseInt(min + (max - min) * Math.random());
-    }
-
+    'scripts/actions',
+    'node_modules/lodash/lodash',
+    'vendor/jquery'
+], function(Card, User, CellAction, CellCard, actions, _, $){
     var field = {
         size: 4,
         el: document.querySelector('table'),
@@ -19,9 +17,7 @@ define([
         ],
 
         findCellById: function(id){
-            return field.cells.find(function (cell) {
-                return cell.name === id;
-            })
+            return _.find(field.cells, ['name', id]);
         }
     };
 
@@ -166,14 +162,13 @@ define([
         gamer.el.remove();
     }
 
-    document
-        .getElementById('dice')
-        .addEventListener('click', function (event) {
+   $('#dice')
+        .on('click', function (event) {
             var el = event.currentTarget;
 
             el.disabled = true;
 
-            var result =  random(2,5);
+            var result =  _.random(2,5);
             var gamer = list.current();
 
             move(gamer, result, function(gamer){
