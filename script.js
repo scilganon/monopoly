@@ -53,15 +53,6 @@ define([
 
     list.init(2);
 
-    function decorateBoughtCell(gamer) {
-        var cell = gamer.el.parentNode;
-
-        var color = getComputedStyle(gamer.el).backgroundColor;
-
-        cell.style.border = `4px solid ${color}`;
-        cell.style.backgroundBlendMode = 'difference';
-    }
-
     function chooseDirection(x, y, size) {
         if (x === size && y === size) {
             return "left"

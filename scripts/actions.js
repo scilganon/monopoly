@@ -1,4 +1,13 @@
 define(function () {
+    function decorateBoughtCell(gamer) {
+        var cell = gamer.el.parentNode;
+
+        var color = getComputedStyle(gamer.el).backgroundColor;
+
+        cell.style.border = `4px solid ${color}`;
+        cell.style.backgroundBlendMode = 'difference';
+    }
+
     return {
         buy: function (user, card) {
             if (user.balance >= card.price) {
