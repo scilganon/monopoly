@@ -27,6 +27,10 @@
         .card {
             background-color: grey;
         }
+
+        div.wrap {
+            display: flex;
+        }
     </style>
 
 </head>
@@ -55,44 +59,52 @@
     <div  id="user_#" class="rectangle"></div>
 </script>
 
-<table border="1">
-    <tr>
-        <td>
+<div class="wrap">
+    <div>
+        <table border="1">
+            <tr>
+                <td>
 
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td id="shop"></td>
-        <td></td>
-        <td id="penalty"></td>
-        <td id="start">
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td id="shop"></td>
+                <td></td>
+                <td id="penalty"></td>
+                <td id="start">
 
-        </td>
-    </tr>
-</table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="user_list">
+        sdfgsdfg
+    </div>
+    <div>
+        <button id="dice">
+            Бросок
+        </button>
+    </div>
+</div>
 
-
-<button id="dice">
-    Бросок
-</button>
 
 <script
-        data-main="script"
+        data-main="application"
         src="node_modules/requirejs/require.js"></script>
 
 </body>

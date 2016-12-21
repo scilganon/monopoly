@@ -7,7 +7,7 @@ define(function(){
         this.id = User.id++;
 
         this.getName = function(){
-            return this.el.className;
+            return this.el.id;
         };
 
         this.render = function(){

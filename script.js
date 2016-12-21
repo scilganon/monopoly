@@ -5,8 +5,9 @@ define([
     'scripts/cellcard',
     'scripts/actions',
     'node_modules/lodash/lodash',
-    'vendor/jquery'
-], function(Card, User, CellAction, CellCard, actions, _, $){
+    'vendor/jquery',
+    'scripts/user_table'
+], function(Card, User, CellAction, CellCard, actions, _, $, UserTable){
     var field = {
         size: 4,
         el: document.querySelector('table'),
@@ -50,8 +51,6 @@ define([
             });
         }
     };
-
-    list.init(2);
 
     function chooseDirection(x, y, size) {
         if (x === size && y === size) {
@@ -153,19 +152,26 @@ define([
         gamer.el.remove();
     }
 
-   $('#dice')
-        .on('click', function (event) {
-            var el = event.currentTarget;
+    return {
+        run(){
+            list.init(2);
 
-            el.disabled = true;
+            $('#dice')
+                .on('click', function (event) {
+                    var el = event.currentTarget;
 
-            var result =  _.random(2,5);
-            var gamer = list.current();
+                    el.disabled = true;
 
-            move(gamer, result, function(gamer){
-                action(gamer);
-                el.disabled = checkWin();
-            });
-        });
+                    var result =  _.random(2,5);
+                    var gamer = list.current();
 
+                    move(gamer, result, function(gamer){
+                        action(gamer);
+                        el.disabled = checkWin();
+                    });
+                });
+
+            UserTable.render(list.users);
+        }
+    };
 });
