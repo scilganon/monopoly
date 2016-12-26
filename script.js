@@ -1,159 +1,177 @@
-function random(min, max) {
-    return parseInt(min + (max - min) * Math.random());
-}
+define([
+    'scripts/card',
+    'scripts/user',
+    'scripts/cellaction',
+    'scripts/cellcard',
+    'scripts/actions',
+    'node_modules/lodash/lodash',
+    'vendor/jquery',
+    'scripts/user_table'
+], function(Card, User, CellAction, CellCard, actions, _, $, UserTable){
+    var field = {
+        size: 4,
+        el: document.querySelector('table'),
+        cells: [
+            new CellAction('penalty', actions.penalty),
+            new CellAction('start', actions.plusBalance),
+            new CellCard('shop', new Card('test', 20)),
+        ],
 
-var actions = {
-    buy: function (user, card) {
-        if (user.balance >= card.price) {
-            if (confirm('Do you want buy this card?')) {
-                user.balance -= card.price;
-                card.owner = user;
-                decorateBoughtCell(user);
-            }
-        } else {
-            console.log('no money - no funny');
+        findCellById: function(id){
+            return _.find(field.cells, ['name', id]);
         }
-    },
+    };
 
-    plusBalance: function (user) {
-        user.balance += 10;
-    },
+    var list = {
+        _turn: 0,
 
-    penalty: function (user) {
-        user.balance *= .9;
-    }
-};
+        users: [],
 
+        current: function () {
+            list._turn = list._turn % list.users.length;
 
-var field = {
-    size: 4,
-    el: document.querySelector('table'),
-    cards: [
-        new CellAction('penalty', actions.penalty),
-        new CellAction('start', actions.plusBalance),
-        new CellCard('shop', new Card('test', 20)),
-    ]
-};
+            return this.users[list._turn++];
+        },
 
-var list = {
-    _turn: 0,
+        init: function(num){
+            for(var i=0; i< num; i++){
+                // var type = prompt('what is you player type: 1 - human, 2 - ufo, 3 - rectangle');
+                //
+                // type = +type % 3 + 1;
 
-    users: [
-        new User(document.querySelector('.gamer_1')),
-        new User(document.querySelector('.gamer_2'))
-    ],
+                var user = new User(i);
 
-    current: function () {
-        list._turn = list._turn % list.users.length;
+                this.users.push(user);
 
-        return this.users[list._turn++];
-    }
-};
+                field.el.querySelector('#start').innerHTML += user.render();
+            }
 
-function decorateBoughtCell(gamer) {
-    var cell = gamer.el.parentNode;
+            this.users.forEach(function(user){
+                user.el = document.querySelector('#user_'+user.id);
+            });
+        }
+    };
 
-    var color = getComputedStyle(gamer.el).backgroundColor;
+    function chooseDirection(x, y, size) {
+        if (x === size && y === size) {
+            return "left"
+        }
 
-    cell.style.border = `4px solid ${color}`;
-    cell.style.backgroundBlendMode = 'difference';
-}
+        if (x === 1 && y === 1) {
+            return 'right';
+        }
 
-function chooseDirection(x, y, size) {
-    if (x === size && y === size) {
-        return "left"
-    }
+        if (x === size && y === 1) {
+            return 'down';
+        }
 
-    if (x === 1 && y === 1) {
-        return 'right';
+        if (x === 1 && y === size) {
+            return 'up';
+        }
     }
 
-    if (x === size && y === 1) {
-        return 'down';
+    function selectTargetCell(direction, x, y, steps) {
+        var target_cell = null;
+
+        switch (direction) {
+            case 'left':
+
+                target_cell = field.el.rows[y - 1].cells[x - 1 - steps];
+
+                break;
+            case 'right':
+
+                target_cell = field.el.rows[y - 1].cells[x - 1 + steps];
+
+                break;
+            case 'up':
+
+                target_cell = field.el.rows[y - 1 - steps].cells[x - 1];
+
+                break;
+            case 'down':
+
+                target_cell = field.el.rows[y - 1 + steps].cells[x - 1];
+
+                break;
+        }
+
+        return target_cell;
     }
 
-    if (x === 1 && y === size) {
-        return 'up';
-    }
-}
+    function move(gamer, steps, cb) {
+        if (steps === 0) {
+            cb(gamer);
 
-function selectTargetCell(direction, x, y, steps) {
-    var target_cell = null;
+            return;
+        }
 
-    switch (direction) {
-        case 'left':
+        var td = gamer.el.parentNode;
 
-            target_cell = field.el.rows[y - 1].cells[x - 1 - steps];
+        var x = td.cellIndex + 1;
+        var y = td.parentNode.rowIndex + 1;
 
-            break;
-        case 'right':
+        gamer.direction = chooseDirection(x, y, field.size) || gamer.direction;
 
-            target_cell = field.el.rows[y - 1].cells[x - 1 + steps];
+        var target_cell = selectTargetCell(gamer.direction, x, y, 1);
+        target_cell.appendChild(gamer.el);
 
-            break;
-        case 'up':
-
-            target_cell = field.el.rows[y - 1 - steps].cells[x - 1];
-
-            break;
-        case 'down':
-
-            target_cell = field.el.rows[y - 1 + steps].cells[x - 1];
-
-            break;
+        setTimeout(function () {
+            move(gamer, steps - 1, cb);
+        }, 500);
     }
 
-    return target_cell;
-}
+    function action(gamer) {
+        var currentId = gamer.el.parentElement.id;
 
-function move(gamer, steps, cb) {
-    if (steps === 0) {
-        cb(gamer);
+        var cell = field.findCellById(currentId);
 
-        return;
+        if (cell) {
+            console.log(cell.action.name);
+            cell.action(gamer);
+
+            if(gamer.balance < 0 ){
+                gameOverForUser(gamer);
+            }
+        }
     }
 
-    var td = gamer.el.parentNode;
-
-    var x = td.cellIndex + 1;
-    var y = td.parentNode.rowIndex + 1;
-
-    gamer.direction = chooseDirection(x, y, field.size) || gamer.direction;
-
-    var target_cell = selectTargetCell(gamer.direction, x, y, 1);
-    target_cell.appendChild(gamer.el);
-
-    setTimeout(function () {
-        move(gamer, steps - 1, cb);
-    }, 500);
-}
-
-function action(gamer) {
-    var currentId = gamer.el.parentElement.id;
-
-    var cell = field.cards.find(function (cell) {
-        return cell.name === currentId;
-    });
-
-    if (cell) {
-        console.log(cell.action.name);
-        cell.action(gamer);
+    function checkWin(){
+        var isWon = list.users.length === 1;
+        if(isWon){
+            console.log("You had won:", list.users[0]);
+        }
+        return isWon;
     }
-}
 
-document
-    .getElementById('dice')
-    .addEventListener('click', function (event) {
-        var el = event.currentTarget;
+    function gameOverForUser(user){
+        var index = list.users.indexOf(user);
 
-        el.disabled = true;
+        var gamer = list.users.splice(index, 1)[0];
 
-        var result = random(2,5);
-        var gamer = list.current();
+        gamer.el.remove();
+    }
 
-        move(gamer, result, function(gamer){
-            action(gamer);
-            el.disabled = false;
-        });
-    });
+    return {
+        run(){
+            list.init(2);
 
+            $('#dice')
+                .on('click', function (event) {
+                    var el = event.currentTarget;
+
+                    el.disabled = true;
+
+                    var result =  _.random(2,5);
+                    var gamer = list.current();
+
+                    move(gamer, result, function(gamer){
+                        action(gamer);
+                        el.disabled = checkWin();
+                    });
+                });
+
+            UserTable.render(list.users);
+        }
+    };
+});
