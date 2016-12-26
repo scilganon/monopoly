@@ -23,7 +23,19 @@ div {
 }
 
 #dice {
+  @width: 120px;
+
+  z-index: 2;
   position: absolute;
-  left: 153px;
-  top: 194px;
+  left: calc(~"50% -" @width / 2);
+  top: 130px;
+  width: @width;
+}
+
+.row {
+  .col-md-6:first-child {
+    div {
+      display: inline-block;
+    }
+  }
 }

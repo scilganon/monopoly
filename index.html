@@ -5,6 +5,8 @@
 </head>
 <body>
 
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="node_modules/js-cookie/src/js.cookie.js"></script>
 <script src="name.js"></script>
 
@@ -28,46 +30,70 @@
     <div  id="user_#" class="rectangle"></div>
 </script>
 
-<div class="wrap">
-    <div>
-        <table border="1">
-            <tr>
-                <td>
-
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td class="btn-cell -p1"></td>
-                <td class="btn-cell -p2"></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td id="shop"></td>
-                <td></td>
-                <td id="penalty"></td>
-                <td id="start">
-
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="user_list">
-        sdfgsdfg
-    </div>
-    <div>
+<div class="row">
+    <div class="col-md-6 text-center">
         <button id="dice" class="btn btn-default  btn-lg">
             Бросок
         </button>
+        <div class="block-in">
+            <table border="1">
+                <tr>
+                    <td>
+
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="btn-cell -p1"></td>
+                    <td class="btn-cell -p2"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td id="shop"></td>
+                    <td></td>
+                    <td id="penalty"></td>
+                    <td id="start">
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#users" aria-controls="home" role="tab" data-toggle="tab">
+                    Users
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#rules" aria-controls="profile" role="tab" data-toggle="tab">
+                    Rules
+                </a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane user_list active" id="users">
+                <!--content-->
+            </div>
+            <div role="tabpanel" class="tab-pane" id="rules">
+                <h1>Main rule - no rules!</h1>
+            </div>
+        </div>
+
     </div>
 </div>
 
