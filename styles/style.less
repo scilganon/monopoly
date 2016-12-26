@@ -1,33 +1,5 @@
-@color: dark-grey;
-@color_2: black;
+@import "_theme";
+@import "_field";
 
-.rectangle {
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-  background-color: @color_2;
-}
-
-img  {
-  width: 25px;
-}
-
-td {
-  width: 100px;
-  height: 100px;
-
-  text-align: center;
-  box-sizing: border-box;
-
-  position: relative;
-}
-
-.card {
-  background-color: @color;
-}
-
-div {
-  &.wrap {
-    display: flex;
-  }
-}
+@icon-font-path: "../../node_modules/bootstrap/fonts";
+@import "../node_modules/bootstrap/less/bootstrap";

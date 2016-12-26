@@ -1,7 +1,14 @@
 <ul>
     <% for(var i=0; i < list.length; i++) {%>
     <li>
-        <%= list[i].getName() %> : <%= list[i].balance %>
+        <span class="glyphicon glyphicon-user"></span>
+        <span class="text-muted">
+            <%= list[i].getName() %>
+        </span>
+        :
+        <span class="text-success">
+            <%= list[i].balance %>
+        </span>
     </li>
     <% } %>
 </ul>

@@ -25,7 +25,7 @@ var path = require('path');
 
 gulp.task('less', function () {
     return gulp
-        .src('styles/*.less')
+        .src('styles/style.less')
         .pipe(less({
             paths: [ path.join(__dirname, 'less', 'includes') ]
         }))
@@ -37,3 +37,16 @@ gulp.task('dev-watch', function(){
         'less'
     ])
 });
+
+gulp.task('fonts', function(){
+    gulp
+        .src([
+            'node_modules/bootstrap/fonts/*'
+        ])
+        .pipe(gulp.dest('styles/fonts'))
+});
+
+gulp.task('build', [
+    'less',
+    'fonts'
+]);

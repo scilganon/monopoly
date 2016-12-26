@@ -1,0 +1,29 @@
+@color: dark-grey;
+@color_2: black;
+
+.rectangle {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background-color: @color_2;
+}
+
+img  {
+  width: 25px;
+}
+
+.card {
+  background-color: @color;
+}
+
+div {
+  &.wrap {
+    display: flex;
+  }
+}
+
+#dice {
+  position: absolute;
+  left: 153px;
+  top: 194px;
+}

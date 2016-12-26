@@ -1,0 +1,23 @@
+table {
+  td {
+    width: 100px;
+    height: 100px;
+
+    text-align: center;
+    box-sizing: border-box;
+
+    position: relative;
+  }
+
+  tr {
+    td.btn-cell {
+      &.-p1 {
+        border-right: none;
+      }
+
+      &.-p2 {
+        border-left: none;
+      }
+    }
+  }
+}
